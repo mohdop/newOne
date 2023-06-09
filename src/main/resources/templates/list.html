@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <title>Liste des profs</title>
+</head>
+<body>
+    
+    <nav class="navbar navbar-light bg-primary">
+        <a class="navbar-brand text-white" th:href="@{/professeurs}">Accueil</a>
+      </nav>
+    <div class="container mt-2">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+          </nav>
+        <div class="card">
+            <div class="card-header bg-warning text-white">
+                <h3>Liste Professeurs</h3>
+                <form class="d-flex my-2 w-50" th:action="@{/professeurs}" method="get">
+                    <input class="form-control me-2" type="search" name="mail" th:value="${mail}" placeholder="Rechercher par Mail" aria-label="Search">
+                    <button class="btn btn-success" type="submit">Rechercher</button>
+                </form>
+            </div>
+                   
+            <div class="card-body">
+                <table class="table table-border ">
+                    <thead >
+                        <tr>
+                            <th>Nom Complet</th>
+                            <th>email</th>
+                            <th>Specialité</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="professeur : ${profs}">
+                            <td th:text="${professeur.nomComplet}"></td>
+                            <td th:text="${professeur.adresseEmail}"></td>
+                            <td th:text="${professeur.specialite}"></td>
+                            <td><a type="button" class="btn btn-outline-success" th:href="@{/professeurs/{id}/sessions(id=${professeur.id})}">Voir sessions</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+</body>
+</html>

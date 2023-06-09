@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <title>Liste des étudiants présents</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-light text-white bg-primary">
+        <a class="navbar-brand text-white" th:href="@{/professeurs}">Accueil</a>
+      </nav>
+    <div class="card text-center">
+        <div class="card-body">
+            <h5 class="card-title">Justification d'absence</h5>
+            <p class="card-text">
+                <h5>Motif :</h5>
+            </p>
+            <p th:text="${justification.motif}"></p>
+            <span th:if="${justification.etat != 'accepté' && justification.etat != 'refusé'}" >
+                <a th:href="@{'/accepter/'+ ${justification.id} + '/' + ${etudiant.id} + '/' + ${sessionn.id}  }" class="btn btn-success">Accepter</a>
+                <a th:href="@{'/refuser/'+ ${justification.id} + '/' + ${etudiant.id} + '/' + ${sessionn.id} }" class="btn btn-danger">Refuser</a>
+            </span>
+            <b th:if="${justification.etat == 'accepté' || justification.etat == 'refusé'}" th:text="${justification.etat}"></b>
+        </div>
+    </div>  
+</body>
+</html>

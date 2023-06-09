@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <title>Liste des sessions </title>
+</head>
+<body>
+    <nav class="navbar  bg-primary">
+        <a class="navbar-brand text-white" th:href="@{/professeurs}">Accueil</a>
+      </nav>
+    <div th="import java.time.ZoneOffset;"></div>
+    <div class="container mt-2">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+          </nav>
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+            <h3>Liste des sessions de <h3 th:text="${professeur.nomComplet}">   </h3> </h3>
+            <form class="d-flex my-2 w-50" th:action="@{/professeurs}" method="get">
+                <input class="form-control me-2" type="search" name="mail" th:value="${mail}" placeholder="Rechercher par Mail" aria-label="Search">
+                <button class="btn btn-success" type="submit">Rechercher</button>
+            </form>
+         </div>
+                
+           
+            <div class="card-body">
+                <table class="table table-border">
+                    <thead>
+                        <tr>
+                            <th>Libellé du cours</th>
+                            <th>date de la session</th>
+                            <th>heure  de début de la session</th>
+                            <th>heure de fin de la session</th>
+                            <th>Validité</th>
+                            <th>Voir Etudiants présents</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="sesssion : ${sessions}">
+                            <td th:text="${sesssion.cours.libelle}"></td>
+                            <td th:text="${sesssion.date}"></td>
+                            <td th:text="${sesssion.heureDebut}"></td>
+                            <td th:text="${sesssion.heureFin}"></td>
+                            <td>
+                                <span th:if="${sesssion.etat == 'en attente'}">
+                                    <a th:href="@{/sessions/update(id=${sesssion.id}, etat='validé')}" class="btn btn-outline-success">Valider Session</a>
+                                                
+                                    <a  th:href="@{/sessions/update(id=${sesssion.id}, etat='invalidé')}" class="btn btn-outline-danger">Invalider Session</a>                                    
+                                </span>
+                                <b th:if="${sesssion.etat != 'en attente'}" th:text="${sesssion.etat}"></b>
+                            </td>
+                            <td>
+                                <a type="button" th:href="@{'/' + ${sesssion.id} + '/etudiants'}"  class="btn btn-outline-warning">Voir liste de présences</a>
+                            
+                            
+                          </tr>
+                        </tr>
+                    </tbody>
+                </table>
+                
+
+              
+            </div>
+        </div>
+    </div>
+</body>
+</html>

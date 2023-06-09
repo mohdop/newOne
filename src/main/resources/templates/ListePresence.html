@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <title>Liste des étudiants présents</title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-primary">
+        <a class="navbar-brand text-white" th:href="@{/professeurs}">Accueil</a>
+      </nav>
+    <div class="container mt-2">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <!-- Barre de navigation -->
+        </nav>
+        <div class="card">
+            <div class="card-header bg-warning text-white">
+                <h3>Liste des étudiants présents</h3>
+            </div>
+                   
+            <div class="card-body">
+                <table class="table table-border ">
+                    <thead>
+                        <tr>
+                            <th>Nom Complet</th>
+                            <th>Email</th>
+                            <th>Présents?</th>
+                            <th>justification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="etudiant : ${etudiantsPresent}">
+                            <td th:text="${etudiant.nomComplet}"></td>
+                            <td th:text="${etudiant.adresseEmail}"></td>
+                            <td>
+                                <span th:if="${presence.etat != 'present' && presence.etat != 'absent'}">
+                                    <a th:href="@{'/' + ${sessionn.id} + '/etudiants/valider/' + ${presence.id} }" class="btn btn-outline-success">Valider présence</a>
+                                    <a th:href="@{'/' + ${sessionn.id} + '/etudiants/invalider/' + ${presence.id} }" class="btn btn-outline-danger">Invalider présence</a>
+                                </span>
+                                
+                                <b th:if="${presence.etat == 'present' || presence.etat == 'absent'}" th:text="${presence.etat}"></b>
+                            </td>
+                            
+                            <td>
+                                <span th:if="${presence.etat == 'absent' || presence.etat == 'pending'}">
+                                    <a type="button" class="btn btn-outline-info" th:href="@{'/justification/' + ${etudiant.id} + '/' + ${sessionn.id}}">
+                                        Voir la justification
+                                    </a>
+                                </span>
+                                <b th:if="${presence.etat == 'present'}">pas de justification</b>
+                            </td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
